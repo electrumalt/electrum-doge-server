@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import imp
+import json
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
+
+if os.path.dirname(os.path.realpath(__file__)) == os.getcwd():
+    imp.load_module('electrumixcserver', *imp.find_module('../src'))
+
+from electrumixcserver.utils import *
+
+headers_path = '/var/electrum-ixc-server/'
+
+headers_filename = os.path.join(headers_path, 'blockchain_headers')
+auxpows_filename = os.path.join(headers_path, 'blockchain_auxpows')
+
+def read_auxpow(offset, length):
+    if os.path.exists(auxpows_filename):
+        with open(auxpows_filename, 'rb') as f:
+            f.seek(offset)
+            auxpow = f.read(length)
+            return auxpow
+
+def read_header(block_height):
+    if os.path.exists(headers_filename):
+        with open(headers_filename, 'rb') as f:
+            f.seek(block_height * 88)
+            h = f.read(88)
+        if len(h) == 88:
+            h = header_from_string(h)
+            if h['auxpow_length'] > 0:
+                auxpow = read_auxpow(h['auxpow_offset'], h['auxpow_length'])
+                h['auxpow'] = auxpow_from_string(auxpow.decode('hex'))
+            return h
+
+if len(sys.argv) < 2:
+    print 'please specify block height'
+    exit()
+
+block_height = int(sys.argv[1])
+header = read_header(block_height)
+pp.pprint(header)
+
+def hash_header(header):
+    # OK ixcoin todo: remove auxpow offsets before hashing
+    return rev_hex(Hash(header_to_string(header).decode('hex')[0:80]).encode('hex'))
+
+#pp.pprint(hash_header(header))
