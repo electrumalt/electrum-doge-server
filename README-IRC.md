@@ -1,9 +1,9 @@
 IRC is used by Electrum-IXC server to find 'peers' - other Electrum-IXC servers. The
 current list can be seen by running:
 
-    ./server.py peers
+    electrum-ixc-server peers
 
-The following config file options are used by the IRC part of Electrum-IXC server:
+The following config file options are used by the IRC part of Electrum server:
 
     [server]
     irc = yes
@@ -13,8 +13,8 @@ The following config file options are used by the IRC part of Electrum-IXC serve
     #report_stratum_http_port = 80
 
 `irc` is used to determine whether the IRC thread will be started or the 
-Electrum-IXC server will run in private mode (default). In private mode, 
-`./server.py peers` will always return an empty list.
+Electrum server will run in private mode (default). In private mode, 
+`electrum-ixc-server peers` will always return an empty list.
 
 `host` is a fully-qualified domain name (FQDN) of your Electrum-IXC server. It is
 used both when binding the listener for incoming client connections and as part

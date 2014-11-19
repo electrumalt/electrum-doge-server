@@ -26,7 +26,7 @@ setup(
     author="Thomas Voegtlin",
     author_email="thomasv1@gmx.de",
     license="GNU Affero GPLv3",
-    url="https://github.com/ixcoin123/electrum-server/",
+    url="https://github.com/electrumalt/electrum-ixc-server/",
     long_description="""Server for the Electrum Lightweight Ixcoin Wallet"""
 )
 

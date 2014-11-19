@@ -152,7 +152,7 @@ find out the best way to do this.
 We will download the latest git snapshot for Electrum-IXC to configure and install it:
 
     $ cd ~
-    $ git clone https://github.com/ixcoin123/electrum-ixc-server.git
+    $ git clone https://github.com/electrumalt/electrum-ixc-server.git
     $ cd electrum-ixc-server
     $ sudo configure
     $ sudo python setup.py install
@@ -201,7 +201,7 @@ The "configure" script above will offer you to download a database with pruning 
 
 You can fetch recent copies of electrum-ixc leveldb databases with differnt pruning limits 
 and further instructions from the Electrum-IXC full archival server foundry at:
-http://foundry.electrum-ixc.org/
+http://foundry.electrumalt.org/
 
 
 Alternatively, if you have the time and nerve, you can import the blockchain yourself.
@@ -300,7 +300,7 @@ Two more things for you to consider:
 2. Consider restarting ixcoind (together with electrum-ixc-server) on a weekly basis to clear out unconfirmed
    transactions from the local the memory pool which did not propagate over the network.
 
-### Step 11. (Finally!) Run Electrum-IXC server
+### Step 11. (Finally!) Run Electrum server
 
 The magic moment has come: you can now start your Electrum-IXC server as root (it will su to your unprivileged user):
 
