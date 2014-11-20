@@ -132,16 +132,18 @@ class BlockchainProcessor(Processor):
     def block2header(self, b):
         # ixcoin todo: add auxpow
         #print b
-        return {
+        res = {
             "block_height": b.get('height'),
             "version": b.get('version'),
             "prev_block_hash": b.get('previousblockhash'),
             "merkle_root": b.get('merkleroot'),
             "timestamp": b.get('time'),
             "bits": int(b.get('bits'), 16),
-            "nonce": b.get('nonce'),
-            "auxpow": self.format_auxpow(b.get('auxpow'))
+            "nonce": b.get('nonce')
         }
+        if (b.get('auxpow')):
+            res['auxpow'] = self.format_auxpow(b.get('auxpow'))
+        return res
 
     def get_header(self, height):
         block_hash = self.bitcoind('getblockhash', [height])
