@@ -12,7 +12,7 @@ requirements.
 
 The most up-to date version of this document is available at:
 
-    https://github.com/dogeoin123/electrum-doge-server/blob/master/HOWTO.md
+    https://github.com/dogecoin123/electrum-doge-server/blob/master/HOWTO.md
 
 Conventions
 -----------
@@ -20,8 +20,8 @@ Conventions
 In this document, lines starting with a hash sign (#) or a dollar sign ($)
 contain commands. Commands starting with a hash should be run as root,
 commands starting with a dollar should be run as a normal user (in this
-document, we assume that user is called 'dogeoin'). We also assume the
-dogeoin user has sudo rights, so we use '$ sudo command' when we need to.
+document, we assume that user is called 'dogecoin'). We also assume the
+dogecoin user has sudo rights, so we use '$ sudo command' when we need to.
 
 Strings that are surrounded by "lower than" and "greater than" ( < and > )
 should be replaced by the user with something appropriate. For example,
@@ -54,9 +54,9 @@ Python libraries.
 
 **Hardware.** The lightest setup is a pruning server with diskspace 
 requirements of about 10 GB for the electrum-doge database. However note that 
-you also need to run dogeoind and keep a copy of the full blockchain, 
+you also need to run dogecoind and keep a copy of the full blockchain, 
 which is roughly 20 GB in April 2014. If you have less than 2 GB of RAM 
-make sure you limit dogeoind to 8 concurrent connections. If you have more 
+make sure you limit dogecoind to 8 concurrent connections. If you have more 
 resources to spare you can run the server with a higher limit of historic 
 transactions per address. CPU speed is important for the initial block 
 chain import, but is also important if you plan to run a public Electrum-DOGE server, 
@@ -67,59 +67,59 @@ has enough RAM to hold and process the leveldb database in tmpfs (e.g. /dev/shm)
 Instructions
 ------------
 
-### Step 1. Create a user for running dogeoind and Electrum-DOGE server
+### Step 1. Create a user for running dogecoind and Electrum-DOGE server
 
 This step is optional, but for better security and resource separation I
-suggest you create a separate user just for running `dogeoind` and Electrum-DOGE.
+suggest you create a separate user just for running `dogecoind` and Electrum-DOGE.
 We will also use the `~/bin` directory to keep locally installed files
 (others might want to use `/usr/local/bin` instead). We will download source
 code files to the `~/src` directory.
 
-    $ sudo adduser dogeoin --disabled-password
+    $ sudo adduser dogecoin --disabled-password
     $ sudo apt-get install git
-    $ sudo su - dogeoin
+    $ sudo su - dogecoin
     $ mkdir ~/bin ~/src
     $ echo $PATH
 
-If you don't see `/home/dogeoin/bin` in the output, you should add this line
+If you don't see `/home/dogecoin/bin` in the output, you should add this line
 to your `.bashrc`, `.profile`, or `.bash_profile`, then logout and relogin:
 
     PATH="$HOME/bin:$PATH"
     $ exit
 
-### Step 2. Download dogeoind
+### Step 2. Download dogecoind
 
 Older versions of Electrum-DOGE used to require a patched version of
-dogeoind. 
-This is not the case anymore since dogeoind supports the 'txindex' option.
-We currently recommend dogeoind 0.9.3 stable.
+dogecoind. 
+This is not the case anymore since dogecoind supports the 'txindex' option.
+We currently recommend dogecoind 0.9.3 stable.
 
-If your package manager does not supply a recent dogeoind or you prefer to compile it yourself,
+If your package manager does not supply a recent dogecoind or you prefer to compile it yourself,
 here are some pointers for Ubuntu:
 
     $ sudo apt-get install make g++ python-leveldb libboost-all-dev libssl-dev libdb++-dev pkg-config
-    $ sudo su - dogeoin
-    $ cd ~/src && wget https://dogeoin.org/bin/0.9.3/dogeoin-0.9.3-linux.tar.gz
-    $ sha256sum dogeoin-.9.3-linux.tar.gz | grep c425783b6cbab9b801ad6a1dcc9235828b98e5dee6675112741f8b210e4f65cd
-    $ tar xfz dogeoin-0.9.3-linux.tar.gz
-    $ cd dogeoin-0.9.3-linux/src
-    $ tar xfz dogeoin-0.9.3.tar.gz
-    $ cd dogeoin-0.9.3
+    $ sudo su - dogecoin
+    $ cd ~/src && wget https://dogecoin.org/bin/0.9.3/dogecoin-0.9.3-linux.tar.gz
+    $ sha256sum dogecoin-.9.3-linux.tar.gz | grep c425783b6cbab9b801ad6a1dcc9235828b98e5dee6675112741f8b210e4f65cd
+    $ tar xfz dogecoin-0.9.3-linux.tar.gz
+    $ cd dogecoin-0.9.3-linux/src
+    $ tar xfz dogecoin-0.9.3.tar.gz
+    $ cd dogecoin-0.9.3
     $ ./configure --disable-wallet --without-miniupnpc
     $ make
-    $ strip ~/src/dogeoin-0.9.3-linux/src/dogeoin-0.9.3/src/dogeoind
-    $ cp -a ~/src/dogeoin-0.9.3-linux/src/dogeoin-0.9.3/src/dogeoind ~/bin/dogeoind
+    $ strip ~/src/dogecoin-0.9.3-linux/src/dogecoin-0.9.3/src/dogecoind
+    $ cp -a ~/src/dogecoin-0.9.3-linux/src/dogecoin-0.9.3/src/dogecoind ~/bin/dogecoind
 
-### Step 3. Configure and start dogeoind
+### Step 3. Configure and start dogecoind
 
-In order to allow Electrum-DOGE to "talk" to `dogeoind`, we need to set up an RPC
-username and password for `dogeoind`. We will then start `dogeoind` and
+In order to allow Electrum-DOGE to "talk" to `dogecoind`, we need to set up an RPC
+username and password for `dogecoind`. We will then start `dogecoind` and
 wait for it to complete downloading the blockchain.
 
-    $ mkdir ~/.dogeoin
-    $ $EDITOR ~/.dogeoin/dogeoin.conf
+    $ mkdir ~/.dogecoin
+    $ $EDITOR ~/.dogecoin/dogecoin.conf
 
-Write this in `dogeoin.conf`:
+Write this in `dogecoin.conf`:
 
     rpcuser=<rpc-username>
     rpcpassword=<rpc-password>
@@ -127,24 +127,24 @@ Write this in `dogeoin.conf`:
     txindex=1
 
 
-If you have an existing installation of dogeoind and have not previously
+If you have an existing installation of dogecoind and have not previously
 set txindex=1 you need to reindex the blockchain by running
 
-    $ dogeoind -reindex
+    $ dogecoind -reindex
 
-If you have a fresh copy of dogeoind start `dogeoind`:
+If you have a fresh copy of dogecoind start `dogecoind`:
 
-    $ dogeoind
+    $ dogecoind
 
-Allow some time to pass for `dogeoind` to connect to the network and start
+Allow some time to pass for `dogecoind` to connect to the network and start
 downloading blocks. You can check its progress by running:
 
-    $ dogeoind getinfo
+    $ dogecoind getinfo
 
-Before starting the electrum-doge server your dogeoind should have processed all 
+Before starting the electrum-doge server your dogecoind should have processed all 
 blockes and caught up to the current height of the network.
-You should also set up your system to automatically start dogeoind at boot
-time, running as the 'dogeoin' user. Check your system documentation to
+You should also set up your system to automatically start dogecoind at boot
+time, running as the 'dogecoin' user. Check your system documentation to
 find out the best way to do this.
 
 ### Step 4. Download and install Electrum-DOGE Server
@@ -270,7 +270,7 @@ in case you need to restore it.
 ### Step 9. Configure Electrum-DOGE server
 
 Electrum-DOGE reads a config file (/etc/electrum-doge.conf) when starting up. This
-file includes the database setup, dogeoind RPC setup, and a few other
+file includes the database setup, dogecoind RPC setup, and a few other
 options.
 
 The "configure" script listed above will create a config file at /etc/electrum-doge.conf
@@ -287,17 +287,17 @@ open files limit to 64k.
 
 The "configure" script will take care of this and ask you to create a
 user for running electrum-doge-server.
-If you're using user dogeoin to run electrum-doge and have added it manually like shown in this HOWTO run 
+If you're using user dogecoin to run electrum-doge and have added it manually like shown in this HOWTO run 
 the following code to add the limits to your /etc/security/limits.conf:
 
-     echo "dogeoin hard nofile 65536" >> /etc/security/limits.conf
-     echo "dogeoin soft nofile 65536" >> /etc/security/limits.conf
+     echo "dogecoin hard nofile 65536" >> /etc/security/limits.conf
+     echo "dogecoin soft nofile 65536" >> /etc/security/limits.conf
 
 Two more things for you to consider:
 
-1. To increase security you may want to close dogeoind for incoming connections and connect outbound only
+1. To increase security you may want to close dogecoind for incoming connections and connect outbound only
 
-2. Consider restarting dogeoind (together with electrum-doge-server) on a weekly basis to clear out unconfirmed
+2. Consider restarting dogecoind (together with electrum-doge-server) on a weekly basis to clear out unconfirmed
    transactions from the local the memory pool which did not propagate over the network.
 
 ### Step 11. (Finally!) Run Electrum server
@@ -337,7 +337,7 @@ or hostname and the port. Press 'Ok' and the client will disconnect from the
 current server and connect to your new Electrum-DOGE server. You should see your
 addresses and transactions history. You can see the number of blocks and
 response time in the Server selection window. You should send/receive some
-dogeoins to confirm that everything is working properly.
+dogecoins to confirm that everything is working properly.
 
 ### Step 13. Join us on IRC, subscribe to the server thread
 

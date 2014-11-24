@@ -109,13 +109,13 @@ fi
 
 bitcoind_user=$(read_config "bitcoind_user")
 if ! [ "$bitcoind_user" ]; then
-    read -p "rpcuser (from your dogeoin.conf file): " -r
+    read -p "rpcuser (from your dogecoin.conf file): " -r
     write_config "bitcoind_user" $REPLY
 fi
 
 bitcoind_password=$(read_config "bitcoind_password")
 if ! [ "$bitcoind_password" ]; then
-    read -p "rpcpassword (from your dogeoin.conf file): " -r
+    read -p "rpcpassword (from your dogecoin.conf file): " -r
     write_config "bitcoind_password" $REPLY
 fi
 

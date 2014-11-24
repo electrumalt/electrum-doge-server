@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name="electrum-doge-server",
     version="0.9",
-    scripts=['run_electrum_doge','electrum-doge-server'],
+    scripts=['run_electrum_doge_server','electrum-doge-server'],
     install_requires=['plyvel','jsonrpclib', 'irc'],
     package_dir={
         'electrumdoge':'src'

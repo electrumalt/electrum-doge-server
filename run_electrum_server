@@ -99,7 +99,7 @@ def create_config(filename=None):
     config.set('server', 'password', '')
     config.set('server', 'irc', 'no')
     config.set('server', 'irc_nick', '')
-    config.set('server', 'coin', 'dogeoin')
+    config.set('server', 'coin', 'dogecoin')
     config.set('server', 'logfile', '/var/log/electrum-doge.log')
     config.set('server', 'donation_address', '')
 
@@ -109,7 +109,7 @@ def create_config(filename=None):
 
     # set network parameters
     config.add_section('network')
-    config.set('network', 'type', 'dogeoin_main')
+    config.set('network', 'type', 'dogecoin_main')
 
     # try to find the config file in the default paths
     if not filename:
