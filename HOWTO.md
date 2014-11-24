@@ -1,18 +1,18 @@
-How to run your own Electrum-IXC server
+How to run your own Electrum-DOGE server
 =======================================
 
 Abstract
 --------
 
 This document is an easy to follow guide to installing and running your own
-Electrum-IXC server on Linux. It is structured as a series of steps you need to
+Electrum-DOGE server on Linux. It is structured as a series of steps you need to
 follow, ordered in the most logical way. The next two sections describe some
 conventions we use in this document and the hardware, software, and expertise
 requirements.
 
 The most up-to date version of this document is available at:
 
-    https://github.com/ixcoin123/electrum-ixc-server/blob/master/HOWTO.md
+    https://github.com/dogeoin123/electrum-doge-server/blob/master/HOWTO.md
 
 Conventions
 -----------
@@ -20,8 +20,8 @@ Conventions
 In this document, lines starting with a hash sign (#) or a dollar sign ($)
 contain commands. Commands starting with a hash should be run as root,
 commands starting with a dollar should be run as a normal user (in this
-document, we assume that user is called 'ixcoin'). We also assume the
-ixcoin user has sudo rights, so we use '$ sudo command' when we need to.
+document, we assume that user is called 'dogeoin'). We also assume the
+dogeoin user has sudo rights, so we use '$ sudo command' when we need to.
 
 Strings that are surrounded by "lower than" and "greater than" ( < and > )
 should be replaced by the user with something appropriate. For example,
@@ -53,13 +53,13 @@ build chain. You will need root access in order to install other software or
 Python libraries. 
 
 **Hardware.** The lightest setup is a pruning server with diskspace 
-requirements of about 10 GB for the electrum-ixc database. However note that 
-you also need to run ixcoind and keep a copy of the full blockchain, 
+requirements of about 10 GB for the electrum-doge database. However note that 
+you also need to run dogeoind and keep a copy of the full blockchain, 
 which is roughly 20 GB in April 2014. If you have less than 2 GB of RAM 
-make sure you limit ixcoind to 8 concurrent connections. If you have more 
+make sure you limit dogeoind to 8 concurrent connections. If you have more 
 resources to spare you can run the server with a higher limit of historic 
 transactions per address. CPU speed is important for the initial block 
-chain import, but is also important if you plan to run a public Electrum-IXC server, 
+chain import, but is also important if you plan to run a public Electrum-DOGE server, 
 which could serve tens of concurrent requests. Any multi-core x86 CPU from 2009 or
 newer other than an Atom should do for good performance. An ideal setup
 has enough RAM to hold and process the leveldb database in tmpfs (e.g. /dev/shm).
@@ -67,59 +67,59 @@ has enough RAM to hold and process the leveldb database in tmpfs (e.g. /dev/shm)
 Instructions
 ------------
 
-### Step 1. Create a user for running ixcoind and Electrum-IXC server
+### Step 1. Create a user for running dogeoind and Electrum-DOGE server
 
 This step is optional, but for better security and resource separation I
-suggest you create a separate user just for running `ixcoind` and Electrum-IXC.
+suggest you create a separate user just for running `dogeoind` and Electrum-DOGE.
 We will also use the `~/bin` directory to keep locally installed files
 (others might want to use `/usr/local/bin` instead). We will download source
 code files to the `~/src` directory.
 
-    $ sudo adduser ixcoin --disabled-password
+    $ sudo adduser dogeoin --disabled-password
     $ sudo apt-get install git
-    $ sudo su - ixcoin
+    $ sudo su - dogeoin
     $ mkdir ~/bin ~/src
     $ echo $PATH
 
-If you don't see `/home/ixcoin/bin` in the output, you should add this line
+If you don't see `/home/dogeoin/bin` in the output, you should add this line
 to your `.bashrc`, `.profile`, or `.bash_profile`, then logout and relogin:
 
     PATH="$HOME/bin:$PATH"
     $ exit
 
-### Step 2. Download ixcoind
+### Step 2. Download dogeoind
 
-Older versions of Electrum-IXC used to require a patched version of
-ixcoind. 
-This is not the case anymore since ixcoind supports the 'txindex' option.
-We currently recommend ixcoind 0.9.3 stable.
+Older versions of Electrum-DOGE used to require a patched version of
+dogeoind. 
+This is not the case anymore since dogeoind supports the 'txindex' option.
+We currently recommend dogeoind 0.9.3 stable.
 
-If your package manager does not supply a recent ixcoind or you prefer to compile it yourself,
+If your package manager does not supply a recent dogeoind or you prefer to compile it yourself,
 here are some pointers for Ubuntu:
 
     $ sudo apt-get install make g++ python-leveldb libboost-all-dev libssl-dev libdb++-dev pkg-config
-    $ sudo su - ixcoin
-    $ cd ~/src && wget https://ixcoin.org/bin/0.9.3/ixcoin-0.9.3-linux.tar.gz
-    $ sha256sum ixcoin-.9.3-linux.tar.gz | grep c425783b6cbab9b801ad6a1dcc9235828b98e5dee6675112741f8b210e4f65cd
-    $ tar xfz ixcoin-0.9.3-linux.tar.gz
-    $ cd ixcoin-0.9.3-linux/src
-    $ tar xfz ixcoin-0.9.3.tar.gz
-    $ cd ixcoin-0.9.3
+    $ sudo su - dogeoin
+    $ cd ~/src && wget https://dogeoin.org/bin/0.9.3/dogeoin-0.9.3-linux.tar.gz
+    $ sha256sum dogeoin-.9.3-linux.tar.gz | grep c425783b6cbab9b801ad6a1dcc9235828b98e5dee6675112741f8b210e4f65cd
+    $ tar xfz dogeoin-0.9.3-linux.tar.gz
+    $ cd dogeoin-0.9.3-linux/src
+    $ tar xfz dogeoin-0.9.3.tar.gz
+    $ cd dogeoin-0.9.3
     $ ./configure --disable-wallet --without-miniupnpc
     $ make
-    $ strip ~/src/ixcoin-0.9.3-linux/src/ixcoin-0.9.3/src/ixcoind
-    $ cp -a ~/src/ixcoin-0.9.3-linux/src/ixcoin-0.9.3/src/ixcoind ~/bin/ixcoind
+    $ strip ~/src/dogeoin-0.9.3-linux/src/dogeoin-0.9.3/src/dogeoind
+    $ cp -a ~/src/dogeoin-0.9.3-linux/src/dogeoin-0.9.3/src/dogeoind ~/bin/dogeoind
 
-### Step 3. Configure and start ixcoind
+### Step 3. Configure and start dogeoind
 
-In order to allow Electrum-IXC to "talk" to `ixcoind`, we need to set up an RPC
-username and password for `ixcoind`. We will then start `ixcoind` and
+In order to allow Electrum-DOGE to "talk" to `dogeoind`, we need to set up an RPC
+username and password for `dogeoind`. We will then start `dogeoind` and
 wait for it to complete downloading the blockchain.
 
-    $ mkdir ~/.ixcoin
-    $ $EDITOR ~/.ixcoin/ixcoin.conf
+    $ mkdir ~/.dogeoin
+    $ $EDITOR ~/.dogeoin/dogeoin.conf
 
-Write this in `ixcoin.conf`:
+Write this in `dogeoin.conf`:
 
     rpcuser=<rpc-username>
     rpcpassword=<rpc-password>
@@ -127,41 +127,41 @@ Write this in `ixcoin.conf`:
     txindex=1
 
 
-If you have an existing installation of ixcoind and have not previously
+If you have an existing installation of dogeoind and have not previously
 set txindex=1 you need to reindex the blockchain by running
 
-    $ ixcoind -reindex
+    $ dogeoind -reindex
 
-If you have a fresh copy of ixcoind start `ixcoind`:
+If you have a fresh copy of dogeoind start `dogeoind`:
 
-    $ ixcoind
+    $ dogeoind
 
-Allow some time to pass for `ixcoind` to connect to the network and start
+Allow some time to pass for `dogeoind` to connect to the network and start
 downloading blocks. You can check its progress by running:
 
-    $ ixcoind getinfo
+    $ dogeoind getinfo
 
-Before starting the electrum-ixc server your ixcoind should have processed all 
+Before starting the electrum-doge server your dogeoind should have processed all 
 blockes and caught up to the current height of the network.
-You should also set up your system to automatically start ixcoind at boot
-time, running as the 'ixcoin' user. Check your system documentation to
+You should also set up your system to automatically start dogeoind at boot
+time, running as the 'dogeoin' user. Check your system documentation to
 find out the best way to do this.
 
-### Step 4. Download and install Electrum-IXC Server
+### Step 4. Download and install Electrum-DOGE Server
 
-We will download the latest git snapshot for Electrum-IXC to configure and install it:
+We will download the latest git snapshot for Electrum-DOGE to configure and install it:
 
     $ cd ~
-    $ git clone https://github.com/electrumalt/electrum-ixc-server.git
-    $ cd electrum-ixc-server
+    $ git clone https://github.com/electrumalt/electrum-doge-server.git
+    $ cd electrum-doge-server
     $ sudo configure
     $ sudo python setup.py install
 
 See the INSTALL file for more information about the configure and install commands. 
 
-### Optional Step 5: Install Electrum-IXC dependencies manually
+### Optional Step 5: Install Electrum-DOGE dependencies manually
 
-Electrum-IXC server depends on various standard Python libraries and leveldb. These will usually be
+Electrum-DOGE server depends on various standard Python libraries and leveldb. These will usually be
 installed by caling "python setup.py install" above. They can be also be installed with your
 package manager if you don't want to use the install routine
 
@@ -175,19 +175,19 @@ leveldb should be at least version 1.9.0. Earlier version are believed to be bug
 
 ### Step 6. Select your limit
 
-Electrum-IXC server uses leveldb to store transactions. You can choose
+Electrum-DOGE server uses leveldb to store transactions. You can choose
 how many spent transactions per address you want to store on the server.
 The default is 100, but there are also servers with 1000 or even 10000.
 Few addresses have more than 10000 transactions. A limit this high
 can be considered equivalent to a "full" server. Full servers previously
-used abe to store the blockchain. The use of abe for electrum-ixc servers is now
+used abe to store the blockchain. The use of abe for electrum-doge servers is now
 deprecated.
 
 The pruning server uses leveldb and keeps a smaller and
 faster database by pruning spent transactions. It's a lot quicker to get up
 and running and requires less maintenance and diskspace than abe.
 
-The section in the electrum-ixc server configuration file (see step 10) looks like this:
+The section in the electrum-doge server configuration file (see step 10) looks like this:
 
      [leveldb]
      path = /path/to/your/database
@@ -199,8 +199,8 @@ The section in the electrum-ixc server configuration file (see step 10) looks li
 It's recommended to fetch a pre-processed leveldb from the net. 
 The "configure" script above will offer you to download a database with pruning limit 100.
 
-You can fetch recent copies of electrum-ixc leveldb databases with differnt pruning limits 
-and further instructions from the Electrum-IXC full archival server foundry at:
+You can fetch recent copies of electrum-doge leveldb databases with differnt pruning limits 
+and further instructions from the Electrum-DOGE full archival server foundry at:
 http://foundry.electrumalt.org/
 
 
@@ -248,7 +248,7 @@ When asked for a challenge password just leave it empty and press enter.
     ...
     Country Name (2 letter code) [AU]:US
     State or Province Name (full name) [Some-State]:California
-    Common Name (eg, YOUR name) []: electrum-ixc-server.tld
+    Common Name (eg, YOUR name) []: electrum-doge-server.tld
     ...
     A challenge password []:
     ...
@@ -256,9 +256,9 @@ When asked for a challenge password just leave it empty and press enter.
     $ openssl x509 -req -days 730 -in server.csr -signkey server.key -out server.crt
 
 The server.crt file is your certificate suitable for the ssl_certfile= parameter and
-server.key corresponds to ssl_keyfile= in your electrum-ixc server config.
+server.key corresponds to ssl_keyfile= in your electrum-doge server config.
 
-Starting with Electrum-IXC 1.9, the client will learn and locally cache the SSL certificate 
+Starting with Electrum-DOGE 1.9, the client will learn and locally cache the SSL certificate 
 for your server upon the first request to prevent man-in-the middle attacks for all
 further connections.
 
@@ -267,86 +267,86 @@ your server with a different server name and a new certificate.
 Therefore it's a good idea to make an offline backup copy of your certificate and key
 in case you need to restore it.
 
-### Step 9. Configure Electrum-IXC server
+### Step 9. Configure Electrum-DOGE server
 
-Electrum-IXC reads a config file (/etc/electrum-ixc.conf) when starting up. This
-file includes the database setup, ixcoind RPC setup, and a few other
+Electrum-DOGE reads a config file (/etc/electrum-doge.conf) when starting up. This
+file includes the database setup, dogeoind RPC setup, and a few other
 options.
 
-The "configure" script listed above will create a config file at /etc/electrum-ixc.conf
+The "configure" script listed above will create a config file at /etc/electrum-doge.conf
 which you can edit to modify the settings.
 
 Go through the config options and set them to your liking.
 If you intend to run the server publicly have a look at README-IRC.md
 
-### Step 10. Tweak your system for running electrum-ixc
+### Step 10. Tweak your system for running electrum-doge
 
-Electrum-IXC server currently needs quite a few file handles to use leveldb. It also requires
+Electrum-DOGE server currently needs quite a few file handles to use leveldb. It also requires
 file handles for each connection made to the server. It's good practice to increase the
 open files limit to 64k. 
 
 The "configure" script will take care of this and ask you to create a
-user for running electrum-ixc-server.
-If you're using user ixcoin to run electrum-ixc and have added it manually like shown in this HOWTO run 
+user for running electrum-doge-server.
+If you're using user dogeoin to run electrum-doge and have added it manually like shown in this HOWTO run 
 the following code to add the limits to your /etc/security/limits.conf:
 
-     echo "ixcoin hard nofile 65536" >> /etc/security/limits.conf
-     echo "ixcoin soft nofile 65536" >> /etc/security/limits.conf
+     echo "dogeoin hard nofile 65536" >> /etc/security/limits.conf
+     echo "dogeoin soft nofile 65536" >> /etc/security/limits.conf
 
 Two more things for you to consider:
 
-1. To increase security you may want to close ixcoind for incoming connections and connect outbound only
+1. To increase security you may want to close dogeoind for incoming connections and connect outbound only
 
-2. Consider restarting ixcoind (together with electrum-ixc-server) on a weekly basis to clear out unconfirmed
+2. Consider restarting dogeoind (together with electrum-doge-server) on a weekly basis to clear out unconfirmed
    transactions from the local the memory pool which did not propagate over the network.
 
 ### Step 11. (Finally!) Run Electrum server
 
-The magic moment has come: you can now start your Electrum-IXC server as root (it will su to your unprivileged user):
+The magic moment has come: you can now start your Electrum-DOGE server as root (it will su to your unprivileged user):
 
-    # electrum-ixc-server start
+    # electrum-doge-server start
 
 Note: If you want to run the server without installing it on your
-system, just run 'run_electrum_ixc_server" as the
+system, just run 'run_electrum_doge_server" as the
 unprivileged user.
 
 You should see this in the log file:
 
-    starting Electrum-IXC server
+    starting Electrum-DOGE server
 
-If you want to stop Electrum-IXC server, use the 'stop' command:
+If you want to stop Electrum-DOGE server, use the 'stop' command:
 
-    # electrum-ixc-server stop
+    # electrum-doge-server stop
 
 
-If your system supports it, you may add electrum-ixc-server to the /etc/init.d directory. 
+If your system supports it, you may add electrum-doge-server to the /etc/init.d directory. 
 This will ensure that the server is started and stopped automatically, and that the database is closed 
 safely whenever your machine is rebooted.
 
-    # ln -s `which electrum-ixc-server` /etc/init.d/electrum-ixc-server
-    # update-rc.d electrum-ixc-server defaults
+    # ln -s `which electrum-doge-server` /etc/init.d/electrum-doge-server
+    # update-rc.d electrum-doge-server defaults
 
-### Step 12. Test the Electrum-IXC server
+### Step 12. Test the Electrum-DOGE server
 
-We will assume you have a working Electrum-IXC client, a wallet, and some
+We will assume you have a working Electrum-DOGE client, a wallet, and some
 transactions history. You should start the client and click on the green
 checkmark (last button on the right of the status bar) to open the Server
 selection window. If your server is public, you should see it in the list
 and you can select it. If you server is private, you need to enter its IP
 or hostname and the port. Press 'Ok' and the client will disconnect from the
-current server and connect to your new Electrum-IXC server. You should see your
+current server and connect to your new Electrum-DOGE server. You should see your
 addresses and transactions history. You can see the number of blocks and
 response time in the Server selection window. You should send/receive some
-ixcoins to confirm that everything is working properly.
+dogeoins to confirm that everything is working properly.
 
 ### Step 13. Join us on IRC, subscribe to the server thread
 
 Say hi to the dev crew, other server operators, and fans on 
-irc.freenode.net #electrum-ixc and we'll try to congratulate you
-on supporting the community by running an Electrum-IXC node.
+irc.freenode.net #electrum-doge and we'll try to congratulate you
+on supporting the community by running an Electrum-DOGE node.
 
-If you're operating a public Electrum-IXC server please subscribe
+If you're operating a public Electrum-DOGE server please subscribe
 to or regulary check the following thread:
 https://bitcointalk.org/index.php?topic=85475.0
-It'll contain announcements about important updates to Electrum-IXC
+It'll contain announcements about important updates to Electrum-DOGE
 server required for a smooth user experience.

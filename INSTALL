@@ -5,12 +5,12 @@ detailled information on how to configure your server.
 TLDR:
 # sudo configure
 # sudo python setup.py install
-# electrum-ixc-server start
-# electrum-ixc-server stop
+# electrum-doge-server start
+# electrum-doge-server stop
 
 
 Note: If you want to run the server without installing it on your
-system, just run 'run_electrum_ixc_server"
+system, just run 'run_electrum_doge_server"
 
 
 1. Install and run bitcoind.
@@ -23,7 +23,7 @@ blockchain
 Note: you cannot use a ultra-pruning bitcoind (forthcoming in 0.9 or
 later).  A full bitcoin node is required in order to know for each
 address if it has been used. Pruning occurs only at the level of the
-Electrum-IXC database.
+Electrum-DOGE database.
 
 
 2. Run the 'configure' script
@@ -33,14 +33,14 @@ You need to run the script as root:
 # sudo configure
 
 It will:
- * create the configuration file in /etc/electrum-ixc.conf
+ * create the configuration file in /etc/electrum-doge.conf
  * create a user that will run the daemon
- * optionally, download a fresh database from the Electrum-IXC Foundry.
+ * optionally, download a fresh database from the Electrum-DOGE Foundry.
 
 If you choose not to use the Foundry, your server will have to build
 the database from scratch. This process can take several days. To
 speed it up, it is recommended to locate your database in shared
-memory, in electrum-ixc.conf: path = /run/shm/electrum-ixc_db
+memory, in electrum-doge.conf: path = /run/shm/electrum-doge_db
 
 Note: The 'configure' script does not configure SSL and IRC. You will
 need to manually edit the configuration file in order to enable SSL on
@@ -58,23 +58,23 @@ Note: You will need to redo this everytime you pull code from git.
 4. Using the server
 -------------------
 
-Use 'electrum-ixc-server' to start and stop the server:
+Use 'electrum-doge-server' to start and stop the server:
 
-# electrum-ixc-server <start|stop|status|getinfo>
+# electrum-doge-server <start|stop|status|getinfo>
 
 The server will write a log file in its database path.
 
 
-5. Add electrum-ixc-server to your system's services
+5. Add electrum-doge-server to your system's services
 ------------------------------------------------
 
-If your system supports it, you may add electrum-ixc-server to the
+If your system supports it, you may add electrum-doge-server to the
 /etc/init.d directory. This will ensure that the server is started and
 stopped automatically, and that the database is closed safely whenever
 your machine is rebooted.
 
-# ln -s `which electrum-ixc-server` /etc/init.d/electrum-ixc-server
-# update-rc.d electrum-ixc-server defaults
+# ln -s `which electrum-doge-server` /etc/init.d/electrum-doge-server
+# update-rc.d electrum-doge-server defaults
 
 
 

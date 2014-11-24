@@ -1,4 +1,4 @@
-Electrum-IXC-server for the Electrum-IXC client
+Electrum-DOGE-server for the Electrum-DOGE client
 ===============================================
 
   * Author: Thomas Voegtlin (ThomasV on the bitcointalk forum)
@@ -27,13 +27,13 @@ Installation
   1. To install and run a server, see INSTALL. For greater
      detail on the installation process, see HOWTO.md.
 
-  2. To start and stop the server, use the 'electrum-ixc-server' script
+  2. To start and stop the server, use the 'electrum-doge-server' script
 
 
 
 License
 -------
 
-Electrum-IXC-server is made available under the terms of the [GNU Affero General
+Electrum-DOGE-server is made available under the terms of the [GNU Affero General
 Public License](http://www.gnu.org/licenses/agpl.html), version 3. See the 
 included `LICENSE` for more details.

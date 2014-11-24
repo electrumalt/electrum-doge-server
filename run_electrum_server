@@ -28,15 +28,15 @@ import imp
 
 
 if os.path.dirname(os.path.realpath(__file__)) == os.getcwd():
-    imp.load_module('electrumixcserver', *imp.find_module('src'))
+    imp.load_module('electrumdogeserver', *imp.find_module('src'))
   
 
-from electrumixcserver import storage, networks, utils
-from electrumixcserver.processor import Dispatcher, print_log
-from electrumixcserver.server_processor import ServerProcessor
-from electrumixcserver.blockchain_processor import BlockchainProcessor
-from electrumixcserver.stratum_tcp import TcpServer
-from electrumixcserver.stratum_http import HttpServer
+from electrumdogeserver import storage, networks, utils
+from electrumdogeserver.processor import Dispatcher, print_log
+from electrumdogeserver.server_processor import ServerProcessor
+from electrumdogeserver.blockchain_processor import BlockchainProcessor
+from electrumdogeserver.stratum_tcp import TcpServer
+from electrumdogeserver.stratum_http import HttpServer
 
 
 logging.basicConfig()
@@ -82,7 +82,7 @@ def create_config(filename=None):
     # set some defaults, which will be overwritten by the config file
     config.add_section('server')
     config.set('server', 'banner', 'Welcome to Electrum!')
-    config.set('server', 'banner_file', '/etc/electrum-ixc.banner')
+    config.set('server', 'banner_file', '/etc/electrum-doge.banner')
     config.set('server', 'host', 'localhost')
     config.set('server', 'electrum_rpc_port', '8000')
     config.set('server', 'report_host', '')
@@ -99,22 +99,22 @@ def create_config(filename=None):
     config.set('server', 'password', '')
     config.set('server', 'irc', 'no')
     config.set('server', 'irc_nick', '')
-    config.set('server', 'coin', 'ixcoin')
-    config.set('server', 'logfile', '/var/log/electrum-ixc.log')
+    config.set('server', 'coin', 'dogeoin')
+    config.set('server', 'logfile', '/var/log/electrum-doge.log')
     config.set('server', 'donation_address', '')
 
     config.add_section('leveldb')
-    config.set('leveldb', 'path', '/dev/shm/electrum-ixc_db')
+    config.set('leveldb', 'path', '/dev/shm/electrum-doge_db')
     config.set('leveldb', 'pruning_limit', '100')
 
     # set network parameters
     config.add_section('network')
-    config.set('network', 'type', 'ixcoin_main')
+    config.set('network', 'type', 'dogeoin_main')
 
     # try to find the config file in the default paths
     if not filename:
         for path in ('/etc/', ''):
-            filename = path + 'electrum-ixc.conf'
+            filename = path + 'electrum-doge.conf'
             if os.path.isfile(filename):
                 break
 

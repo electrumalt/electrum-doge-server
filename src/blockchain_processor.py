@@ -83,7 +83,7 @@ class BlockchainProcessor(Processor):
         while not self.shared.stopped():
             self.main_iteration()
             if self.shared.paused():
-                print_log("ixcoind is responding")
+                print_log("dogeoind is responding")
                 self.shared.unpause()
             time.sleep(10)
 
@@ -111,7 +111,7 @@ class BlockchainProcessor(Processor):
                 respdata = urllib.urlopen(self.bitcoind_url, postdata).read()
                 break
             except:
-                print_log("cannot reach ixcoind...")
+                print_log("cannot reach dogeoind...")
                 self.shared.pause()
                 time.sleep(10)
                 if self.shared.stopped():
@@ -130,7 +130,7 @@ class BlockchainProcessor(Processor):
         return auxpow
 
     def block2header(self, b):
-        # ixcoin todo: add auxpow
+        # dogeoin todo: add auxpow
         #print b
         res = {
             "block_height": b.get('height'),
@@ -167,7 +167,7 @@ class BlockchainProcessor(Processor):
             height = -1
 
         if os.path.exists(self.auxpows_filename):
-            # ixcoin: do something else?
+            # dogeoin: do something else?
             self.auxpows_offset = os.path.getsize(self.auxpows_filename)
         else:
             open(self.auxpows_filename, 'wb').close()
@@ -201,7 +201,7 @@ class BlockchainProcessor(Processor):
         self.flush_headers()
 
     def hash_header(self, header):
-        # OK ixcoin todo: remove auxpow offsets before hashing
+        # OK dogeoin todo: remove auxpow offsets before hashing
         return rev_hex(Hash(header_to_string(header).decode('hex')[0:80]).encode('hex'))
 
     def read_header(self, block_height):
@@ -214,7 +214,7 @@ class BlockchainProcessor(Processor):
                 return h
 
     def read_chunk(self, index):
-        # ixcoin todo: include auxpow data in chunk...
+        # dogeoin todo: include auxpow data in chunk...
         with open(self.headers_filename, 'rb') as f:
             f.seek(index*2016*88)
             chunk = f.read(2016*88)
@@ -264,7 +264,7 @@ class BlockchainProcessor(Processor):
 
         self.headers_data += header_to_string(header).decode('hex')
 
-        # ixcoin todo: not sure why 40*100 was chosen... half of 80?
+        # dogeoin todo: not sure why 40*100 was chosen... half of 80?
         if sync or len(self.headers_data) > 40*100:
             self.flush_headers()
         # repeat code above for auxpow data
@@ -276,7 +276,7 @@ class BlockchainProcessor(Processor):
 
     def pop_header(self):
         # we need to do this only if we have not flushed
-        # ixcoin todo: why -40?
+        # dogeoin todo: why -40?
         if self.headers_data:
             self.headers_data = self.headers_data[:-40]
 
@@ -287,7 +287,7 @@ class BlockchainProcessor(Processor):
             f.seek(self.headers_offset*88)
             f.write(self.headers_data)
         with open(self.auxpows_filename, 'a+') as f:
-            # ixcoin todo: always write auxpow data at end of file?
+            # dogeoin todo: always write auxpow data at end of file?
             f.write(self.auxpows_data)
         self.headers_data = ''
         self.auxpows_data = ''
@@ -392,7 +392,7 @@ class BlockchainProcessor(Processor):
         return {"block_height": height, "merkle": s, "pos": tx_pos}
 
 
-    # ixcoin todo: not sure if the 80 here is related to block header
+    # dogeoin todo: not sure if the 80 here is related to block header
     # and should be replaced by 88
     def add_to_history(self, addr, tx_hash, tx_pos, tx_height):
         # keep it sorted
@@ -602,7 +602,7 @@ class BlockchainProcessor(Processor):
                 start = time.time()
                 result = zlib.compress(result).encode('hex')
                 print 'compressed chunk in',time.time()-start,'seconds'
-                #ixcoin todo: compress result?
+                #dogeoin todo: compress result?
 
         elif method == 'blockchain.transaction.broadcast':
             try:
@@ -655,7 +655,7 @@ class BlockchainProcessor(Processor):
         try:
             respdata = urllib.urlopen(self.bitcoind_url, postdata).read()
         except:
-            logger.error("ixcoind error (getfullblock)",exc_info=True)
+            logger.error("dogeoind error (getfullblock)",exc_info=True)
             self.shared.stop()
 
         r = loads(respdata)
@@ -663,7 +663,7 @@ class BlockchainProcessor(Processor):
         for ir in r:
             if ir['error'] is not None:
                 self.shared.stop()
-                print_log("Error: make sure you run ixcoind with txindex=1; use -reindex if needed.")
+                print_log("Error: make sure you run dogeoind with txindex=1; use -reindex if needed.")
                 raise BaseException(ir['error'])
             rawtxdata.append(ir['result'])
         block['tx'] = rawtxdata

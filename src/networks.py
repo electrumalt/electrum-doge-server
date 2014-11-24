@@ -11,9 +11,9 @@ params = {
         'script_address': 196,
         'genesis_hash': '000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943'
     },
-    'ixcoin_main': {
-        'pubkey_address': 138,
-        'script_address': 5,
-        'genesis_hash': '0000000001534ef8893b025b9c1da67250285e35c9f76cae36a4904fdf72c591'
+    'dogecoin_main': {
+        'pubkey_address': 30,
+        'script_address': 22,
+        'genesis_hash': '1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691'
     }
 }

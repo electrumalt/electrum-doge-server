@@ -12,12 +12,12 @@ stratum_tcp_port = 50001
 #report_stratum_tcp_ssl_port = 50002
 password = secret
 banner = Welcome to Electrum!
-banner_file = /etc/electrum-ixc.banner
+banner_file = /etc/electrum-doge.banner
 #irc = no
 #irc_nick = <yournickname>
 #ssl_certfile = /path/to/electrum-server.crt
 #ssl_keyfile = /path/to/electrum-server.key
-logfile = /var/log/electrum-ixc.log
+logfile = /var/log/electrum-doge.log
 donation_address = 
 
 [leveldb]
@@ -29,6 +29,6 @@ pruning_limit = 100
 [bitcoind]
 bitcoind_host = localhost
 bitcoind_port = 8338
-# user and password from ixcoin.conf
+# user and password from dogecoin.conf
 bitcoind_user = 
 bitcoind_password = 

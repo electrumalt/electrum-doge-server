@@ -1,33 +1,33 @@
 from setuptools import setup
 
 setup(
-    name="electrum-ixc-server",
+    name="electrum-doge-server",
     version="0.9",
-    scripts=['run_electrum_ixc_server','electrum-ixc-server'],
+    scripts=['run_electrum_doge','electrum-doge-server'],
     install_requires=['plyvel','jsonrpclib', 'irc'],
     package_dir={
-        'electrumixcserver':'src'
+        'electrumdoge':'src'
         },
     py_modules=[
-        'electrumixcserver.__init__',
-        'electrumixcserver.utils',
-        'electrumixcserver.storage',
-        'electrumixcserver.deserialize',
-        'electrumixcserver.networks',
-        'electrumixcserver.blockchain_processor',
-        'electrumixcserver.server_processor',
-        'electrumixcserver.processor',
-        'electrumixcserver.version',
-        'electrumixcserver.ircthread',
-        'electrumixcserver.stratum_tcp',
-        'electrumixcserver.stratum_http'
+        'electrumdoge.__init__',
+        'electrumdoge.utils',
+        'electrumdoge.storage',
+        'electrumdoge.deserialize',
+        'electrumdoge.networks',
+        'electrumdoge.blockchain_processor',
+        'electrumdoge.server_processor',
+        'electrumdoge.processor',
+        'electrumdoge.version',
+        'electrumdoge.ircthread',
+        'electrumdoge.stratum_tcp',
+        'electrumdoge.stratum_http'
     ],
-    description="Ixcoin Electrum Server",
+    description="Doge Electrum Server",
     author="Thomas Voegtlin",
     author_email="thomasv1@gmx.de",
     license="GNU Affero GPLv3",
-    url="https://github.com/electrumalt/electrum-ixc-server/",
-    long_description="""Server for the Electrum Lightweight Ixcoin Wallet"""
+    url="https://github.com/electrumalt/electrum-doge-server/",
+    long_description="""Server for the Electrum Lightweight Dogecoin Wallet"""
 )
 
 

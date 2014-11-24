@@ -9,11 +9,11 @@ import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 if os.path.dirname(os.path.realpath(__file__)) == os.getcwd():
-    imp.load_module('electrumixcserver', *imp.find_module('../src'))
+    imp.load_module('electrumdogeserver', *imp.find_module('../src'))
 
-from electrumixcserver.utils import *
+from electrumdogeserver.utils import *
 
-headers_path = '/var/electrum-ixc-server/'
+headers_path = '/var/electrum-doge-server/'
 
 headers_filename = os.path.join(headers_path, 'blockchain_headers')
 auxpows_filename = os.path.join(headers_path, 'blockchain_auxpows')
